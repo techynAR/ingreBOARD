@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 10.6%;
+    --foreground: 210 40% 96%;
+    --card: 0 0% 13%;
+    --card-foreground: 210 40% 96%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 160 84% 47%;
+    --primary-foreground: 168 100% 7%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 210 36% 94%;
+    --muted: 0 0% 22%;
+    --muted-foreground: 220 15% 70%;
+    --accent: 187 47% 44%;
+    --accent-foreground: 210 40% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 96%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 160 84% 47%;
+    --radius: 0.5rem;
+    color-scheme: dark;
+  }
+
+  .dark {
+    --background: 0 0% 10.6%;
+    --foreground: 210 40% 96%;
+    --card: 0 0% 13%;
+    --card-foreground: 210 40% 96%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 210 40% 96%;
+    --primary: 160 84% 47%;
+    --primary-foreground: 168 100% 7%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 210 36% 94%;
+    --muted: 0 0% 22%;
+    --muted-foreground: 220 15% 70%;
+    --accent: 187 47% 44%;
+    --accent-foreground: 210 40% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 96%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 160 84% 47%;
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-[#1b1b1b] text-white;
+}
+
+/* Animation utilities */
+.fade-in {
+  @apply transition-opacity duration-700 ease-in-out;
+}
+
+.slide-up {
+  @apply transition-transform duration-700 ease-out;
+}
+
+.scale-in {
+  @apply transition-transform duration-500 ease-out;
+}
+
+.stagger-item {
+  @apply opacity-0 translate-y-4;
+}
+
+.stagger-item.in-view {
+  @apply opacity-100 translate-y-0 transition-all duration-700;
+}
+
+/* Smooth scrolling for anchor links */
+a[href^="#"] {
+  scroll-behavior: smooth;
+}
+
+/* Database component animations */
+.database {
+  offset-anchor: 10px 0px;
+  animation: database-animation-path;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  animation-duration: 4s;
+  animation-delay: 1s;
+}
+
+.db-light-1 {
+  offset-path: path("M 31 10 v 15 q 0 5 5 5 h 59 q 5 0 5 5 v 25");
+}
+
+.db-light-2 {
+  offset-path: path("M 77 10 v 10 q 0 5 5 5 h 13 q 5 0 5 5 v 25");
+}
+
+.db-light-3 {
+  offset-path: path("M 124 10 v 10 q 0 5 -5 5 h -14 q -5 0 -5 5 v 25");
+}
+
+.db-light-4 {
+  offset-path: path("M 170 10 v 15 q 0 5 -5 5 h -60 q -5 0 -5 5 v 25");
+}
+
+@keyframes database-animation-path {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
