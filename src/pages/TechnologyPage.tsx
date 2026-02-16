@@ -1,14 +1,14 @@
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { useInView } from 'react-intersection-observer';
-import { 
-  Camera, 
-  Brain, 
-  Database, 
-  Zap, 
-  Shield, 
-  Code2, 
-  Cpu, 
+import {
+  Camera,
+  Brain,
+  Database,
+  Zap,
+  Shield,
+  Code2,
+  Cpu,
   Eye,
   Layers,
   GitBranch,
@@ -57,21 +57,21 @@ const TechnologyPage = () => {
     },
     {
       icon: <Brain className="h-8 w-8" />,
-      title: "Google Gemini Pro AI",
-      description: "Multi-modal large language model leveraging transformer architecture for contextual ingredient analysis and natural language processing.",
-      tech: "Gemini Pro API + Google Generative AI SDK"
+      title: "Groq AI (Llama 3.3)",
+      description: "Ultra-fast inference engine utilizing Llama 3.3 70B for deep semantic analysis, safety assessment, and ingredient classification.",
+      tech: "Groq SDK + Llama 3.3 70B"
     },
     {
       icon: <Database className="h-8 w-8" />,
-      title: "Structured Knowledge Base",
-      description: "Curated ingredient database with hierarchical taxonomy including additives, preservatives, and sweeteners with safety classifications.",
-      tech: "TypeScript + JSON Schema Validation"
+      title: "Open Food Facts",
+      description: "Global collaborative food database integration for instant barcode lookup and verified product data enrichment.",
+      tech: "Open Food Facts API v2"
     },
     {
       icon: <Zap className="h-8 w-8" />,
-      title: "Real-time Processing",
-      description: "Asynchronous processing pipeline with service worker optimization and lazy loading for instant ingredient analysis.",
-      tech: "React 18 + Vite HMR + Service Workers"
+      title: "Serverless Backend",
+      description: "High-performance asynchronous processing pipeline deployed on Vercel Edge for instant, scalable ingredient analysis.",
+      tech: "Vercel Functions + Node.js Context"
     }
   ];
 
@@ -88,7 +88,7 @@ const TechnologyPage = () => {
     },
     {
       title: "Integration Layer",
-      items: ["OCR.Space REST API", "Google Gemini Pro API", "OpenAI GPT-4 Fallback"],
+      items: ["OCR.Space REST API", "Groq AI (Llama 3.3) API", "Open Food Facts API"],
       color: "from-cyan-500 to-blue-600"
     },
     {
@@ -120,7 +120,7 @@ const TechnologyPage = () => {
     {
       step: "04",
       title: "AI-Powered Analysis",
-      description: "LLM-based semantic analysis using Google Gemini Pro with prompt engineering for safety assessment and allergen detection.",
+      description: "LLM-based semantic analysis using Groq AI with advanced prompt engineering for safety assessment and allergen detection.",
       icon: <Brain className="h-6 w-6" />
     },
     {
@@ -141,8 +141,8 @@ const TechnologyPage = () => {
     <>
       <Helmet>
         <title>Technology & Architecture - ingreBOARD</title>
-        <meta 
-          name="description" 
+        <meta
+          name="description"
           content="Explore the advanced technology stack powering ingreBOARD: OCR, AI, and modern web architecture for ingredient analysis."
         />
       </Helmet>
@@ -177,7 +177,7 @@ const TechnologyPage = () => {
             ref={techStackRef}
             className="max-w-6xl mx-auto"
           >
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 30 }}
               animate={techStackInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8 }}
@@ -189,9 +189,8 @@ const TechnologyPage = () => {
               {techStack.map((tech, index) => (
                 <div
                   key={index}
-                  className={`bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-8 hover:border-emerald-500/50 transition-all duration-700 ease-out will-change-transform will-change-opacity hover:-translate-y-1 ${
-                    techStackInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                  }`}
+                  className={`bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-8 hover:border-emerald-500/50 transition-all duration-700 ease-out will-change-transform will-change-opacity hover:-translate-y-1 ${techStackInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                    }`}
                   style={{ transitionDelay: `${index * 120}ms` }}
                 >
                   <div className="text-emerald-400 mb-4">{tech.icon}</div>
@@ -243,9 +242,8 @@ const TechnologyPage = () => {
               {architectureLayers.map((layer, index) => (
                 <div
                   key={index}
-                  className={`bg-gray-800 border border-gray-700 rounded-lg p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${
-                    architectureInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                  }`}
+                  className={`bg-gray-800 border border-gray-700 rounded-lg p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${architectureInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                    }`}
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   <div className={`h-2 w-full bg-gradient-to-r ${layer.color} rounded-full mb-4`} />
@@ -270,7 +268,7 @@ const TechnologyPage = () => {
             ref={pipelineRef}
             className="max-w-6xl mx-auto"
           >
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={pipelineInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
               transition={{ duration: 0.8 }}
@@ -289,9 +287,8 @@ const TechnologyPage = () => {
               {processingPipeline.map((stage, index) => (
                 <div
                   key={index}
-                  className={`relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:border-emerald-500/50 transition-all duration-700 ease-out will-change-transform will-change-opacity ${
-                    pipelineInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-                  }`}
+                  className={`relative bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:border-emerald-500/50 transition-all duration-700 ease-out will-change-transform will-change-opacity ${pipelineInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                    }`}
                   style={{ transitionDelay: `${index * 100}ms` }}
                 >
                   <div className="flex items-start gap-6">
@@ -328,10 +325,9 @@ const TechnologyPage = () => {
           >
             <h2 className="text-4xl font-bold mb-12 text-center">Technical Specifications</h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className={`bg-gray-800 border border-gray-700 rounded-xl p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${
-                specsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
-              style={{ transitionDelay: '0ms' }}>
+              <div className={`bg-gray-800 border border-gray-700 rounded-xl p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${specsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
+                style={{ transitionDelay: '0ms' }}>
                 <Shield className="h-10 w-10 text-emerald-400 mb-4" />
                 <h3 className="text-xl font-semibold mb-3">Security & Privacy</h3>
                 <ul className="space-y-2 text-gray-300 text-sm">
@@ -343,10 +339,9 @@ const TechnologyPage = () => {
                 </ul>
               </div>
 
-              <div className={`bg-gray-800 border border-gray-700 rounded-xl p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${
-                specsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
-              style={{ transitionDelay: '120ms' }}>
+              <div className={`bg-gray-800 border border-gray-700 rounded-xl p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${specsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
+                style={{ transitionDelay: '120ms' }}>
                 <Layers className="h-10 w-10 text-emerald-400 mb-4" />
                 <h3 className="text-xl font-semibold mb-3">Performance</h3>
                 <ul className="space-y-2 text-gray-300 text-sm">
@@ -358,10 +353,9 @@ const TechnologyPage = () => {
                 </ul>
               </div>
 
-              <div className={`bg-gray-800 border border-gray-700 rounded-xl p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${
-                specsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-              }`}
-              style={{ transitionDelay: '240ms' }}>
+              <div className={`bg-gray-800 border border-gray-700 rounded-xl p-6 transition-all duration-700 ease-out will-change-transform will-change-opacity ${specsInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                }`}
+                style={{ transitionDelay: '240ms' }}>
                 <Cpu className="h-10 w-10 text-emerald-400 mb-4" />
                 <h3 className="text-xl font-semibold mb-3">Deployment</h3>
                 <ul className="space-y-2 text-gray-300 text-sm">

@@ -45,10 +45,10 @@ const AboutPage = () => {
         <title>About ingreBOARD - Our Mission and Team</title>
         <meta name="description" content="Learn about ingreBOARD's mission to empower informed choices through ingredient analysis. " />
       </Helmet>
-      
+
       <section className="bg-gray-900 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             ref={titleRef}
             initial={{ opacity: 0, y: 30 }}
             animate={titleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -69,19 +69,31 @@ const AboutPage = () => {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={titleInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-gray-800/60 rounded-lg p-6 mb-16 max-w-4xl mx-auto"
+            className="bg-gray-800/60 rounded-lg p-8 mb-16 max-w-4xl mx-auto border border-gray-700"
           >
-            <h3 className="text-yellow-400 font-semibold mb-2">Current Development Status</h3>
-            <p className="text-gray-300">
-              ingreBOARD is actively evolving. The current version focuses on accurate ingredient analysis and reliable allergen detection. We are continuously refining the engine to improve precision, expand our database, and support more nuanced classifications across different product categories.
-            </p>
+            <h3 className="text-emerald-400 text-2xl font-bold mb-6 text-center">Platform Capabilities (v2.0)</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                { title: 'Serverless Backend', desc: 'Secure, high-performance Vercel Edge compute for instant processing.' },
+                { title: 'Open Food Facts', desc: 'Integrated with the world\'s largest open food database for barcode lookup.' },
+                { title: 'Groq AI (Llama 3.3)', desc: 'Advanced semantic analysis replacing legacy Gemini models for better accuracy.' },
+                { title: 'Real-time OCR', desc: 'Extract ingredient lists instantly from product packaging images.' },
+                { title: 'Allergen Detection', desc: 'Automated flagging of potential allergens and sensitizers.' },
+                { title: 'Risk Scoring', desc: 'Weighted scoring model based on regulatory data and additives.' }
+              ].map((f, i) => (
+                <div key={i} className="flex flex-col p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                  <span className="text-emerald-400 font-semibold mb-1">▹ {f.title}</span>
+                  <span className="text-gray-400 text-sm">{f.desc}</span>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
-          <div 
+          <div
             ref={featuresRef}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16"
           >
@@ -94,9 +106,8 @@ const AboutPage = () => {
               return (
                 <div
                   key={driver.title}
-                  className={`bg-gray-800 rounded-lg p-8 text-center transition-transform duration-700 ease-out will-change-transform will-change-opacity hover:-translate-y-1 ${
-                    featuresInView ? visibleState : hiddenState
-                  } ${prefersReducedMotion ? '' : 'transition-opacity'}`}
+                  className={`bg-gray-800 rounded-lg p-8 text-center transition-transform duration-700 ease-out will-change-transform will-change-opacity hover:-translate-y-1 ${featuresInView ? visibleState : hiddenState
+                    } ${prefersReducedMotion ? '' : 'transition-opacity'}`}
                   style={
                     prefersReducedMotion
                       ? undefined
@@ -113,10 +124,17 @@ const AboutPage = () => {
             })}
           </div>
 
-          <div className="max-w-4xl mx-auto text-center">
-            <p className="text-gray-400 text-lg">
-              ingreBOARD is the first step toward a more informed food ecosystem - one ingredient list at a time.
+          <div className="max-w-4xl mx-auto text-center border-t border-gray-800 pt-16">
+            <h3 className="text-2xl font-bold text-white mb-6">Our Commitment</h3>
+            <p className="text-gray-400 text-lg mb-8">
+              ingreBOARD is the first step toward a more informed food ecosystem - one ingredient list at a time. We are committed to using the best technology, from Groq AI to Open Food Facts, to provide you with the most accurate information.
             </p>
+            <a
+              href="/technology"
+              className="inline-flex items-center text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
+            >
+              Learn more about our technology stack <span className="ml-2">→</span>
+            </a>
           </div>
 
         </div>
