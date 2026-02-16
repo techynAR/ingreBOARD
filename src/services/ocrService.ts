@@ -2,6 +2,7 @@ import { createWorker } from 'tesseract.js';
 
 interface OCRResult {
   text: string;
+  engine: 'Tesseract' | 'OCR.space';
   error?: string;
 }
 
@@ -9,7 +10,7 @@ export class OCRService {
   private static instance: OCRService;
   private readonly apiKey = import.meta.env.VITE_OCR_SPACE_API_KEY;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): OCRService {
     if (!OCRService.instance) {
@@ -28,13 +29,18 @@ export class OCRService {
       formData.append('scale', 'true');
       formData.append('OCREngine', '2');
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
+
       const response = await fetch('https://api.ocr.space/parse/image', {
         method: 'POST',
         headers: {
           'apikey': this.apiKey
         },
-        body: formData
+        body: formData,
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error(`OCR processing failed: ${response.statusText}`);
@@ -51,14 +57,14 @@ export class OCRService {
         throw new Error('No text extracted from image');
       }
 
-      return { text: extractedText };
+      return { text: extractedText, engine: 'OCR.space' };
     } catch (error) {
       if (error instanceof TypeError && error.message.includes('fetch')) {
         throw new Error('Network error occurred');
       }
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       console.error('OCR processing error:', errorMessage);
-      return { text: '', error: errorMessage };
+      return { text: '', engine: 'OCR.space', error: errorMessage };
     }
   }
 
@@ -66,7 +72,7 @@ export class OCRService {
     try {
       const worker = await createWorker('eng');
       const imageUrl = URL.createObjectURL(imageFile);
-      
+
       const { data } = await worker.recognize(imageUrl);
       await worker.terminate();
       URL.revokeObjectURL(imageUrl);
@@ -75,11 +81,11 @@ export class OCRService {
         throw new Error('No text could be extracted from the image');
       }
 
-      return { text: data.text };
+      return { text: data.text, engine: 'Tesseract' };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       console.error('Tesseract processing error:', errorMessage);
-      return { text: '', error: errorMessage };
+      return { text: '', engine: 'Tesseract', error: errorMessage };
     }
   }
 
@@ -89,17 +95,14 @@ export class OCRService {
       return await this.tesseractProcess(imageFile);
     }
 
-    try {
-      return await this.ocrSpaceProcess(imageFile);
-    } catch (error) {
-      if (error instanceof Error && error.message.includes('Network')) {
-        console.warn('OCR.space network error detected, falling back to Tesseract.js');
-        return await this.tesseractProcess(imageFile);
-      }
-      
-      console.warn('OCR.space failed, falling back to Tesseract.js:', error);
+    // try {
+    const result = await this.ocrSpaceProcess(imageFile);
+    if (result.error) {
+      console.warn('OCR.space failed/error, falling back to Tesseract.js:', result.error);
       return await this.tesseractProcess(imageFile);
     }
+    return result;
+    // } catch (error) { ... } // remove catch since we handle result.error
   }
 }
 
