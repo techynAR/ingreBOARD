@@ -78,6 +78,7 @@ jest-config/
 .expo-shared/
 
 # Others
+.vercel/
 *.sqlite
 *.tgz
 *.log.*
