@@ -122,43 +122,57 @@ const IngredientCard = ({ detail, index }: { detail: IngredientDetail; index: nu
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.98 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.02, duration: 0.2 }}
-      className={`group relative bg-gradient-to-br ${sc.bg} backdrop-blur-md border ${sc.border} rounded-2xl overflow-hidden hover:shadow-xl hover:${sc.border}/40 transition-all duration-500 transition-shadow`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.5, ease: "easeOut" }}
+      className={`group relative bg-gradient-to-br ${sc.bg} backdrop-blur-xl border ${sc.border} rounded-3xl overflow-hidden hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:${sc.border}/60 transition-all duration-500`}
     >
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full p-4 text-left focus:outline-none"
+        className="w-full p-5 sm:p-6 text-left focus:outline-none"
       >
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4 flex-1">
-            <div className={`w-2 h-2 rounded-full ${sc.dot} shrink-0 shadow-[0_0_10px_rgba(0,0,0,0.2)] ${sc.glow}`} />
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex items-center gap-5 flex-1 min-w-0">
+            <div className={`relative flex items-center justify-center w-12 h-12 rounded-2xl ${sc.bg} border ${sc.border} shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500`}>
+              <div className={`w-3 h-3 rounded-full ${sc.dot} ${sc.glow} absolute -top-1 -right-1 border-2 border-slate-900`} />
+              {categoryIcon(detail.category)}
+            </div>
             <div className="flex-1 min-w-0">
-              <span className="text-slate-100 font-bold text-[15px] block truncate group-hover:text-white transition-colors">
-                {detail.name}
-              </span>
-              <div className="flex items-center gap-2 mt-2 flex-wrap">
-                <span className={`text-[9px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded border ${categoryBg(detail.category)} flex items-center gap-1 shadow-sm`}>
-                  {categoryIcon(detail.category)} {detail.category}
+              <div className="flex items-center gap-3 mb-1.5 flex-wrap">
+                <span className="text-slate-100 font-bold text-lg leading-tight group-hover:text-white transition-colors">
+                  {detail.name}
                 </span>
                 {detail.additiveCode && (
-                  <span className="text-[9px] font-mono font-bold text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 shadow-sm">
+                  <span className="text-[10px] font-mono font-black text-indigo-300 bg-indigo-500/10 px-2.5 py-1 rounded-lg border border-indigo-500/20 shadow-sm">
                     {detail.additiveCode}
                   </span>
                 )}
               </div>
+              <div className="flex items-center gap-2">
+                <span className={`text-[10px] uppercase tracking-[0.1em] font-black px-2.5 py-1 rounded-lg border ${categoryBg(detail.category)} shadow-sm`}>
+                  {detail.category}
+                </span>
+                <span className={`text-[10px] font-bold text-slate-500 uppercase tracking-widest sm:hidden`}>
+                  {detail.safetyLevel}
+                </span>
+              </div>
             </div>
           </div>
-          <div className="flex items-center gap-4 shrink-0">
-            <span className={`text-[11px] font-black tracking-widest uppercase ${sc.text} hidden sm:block opacity-80`}>
-              {detail.safetyLevel}
-            </span>
+          <div className="flex items-center gap-6 shrink-0">
+            <div className="hidden sm:flex flex-col items-end">
+              <span className={`text-[10px] font-black tracking-[0.2em] uppercase ${sc.text} mb-1 opacity-70`}>
+                Safety Rating
+              </span>
+              <span className={`text-sm font-bold text-white`}>
+                {detail.safetyLevel}
+              </span>
+            </div>
             <motion.div
               animate={{ rotate: expanded ? 180 : 0 }}
-              transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors"
             >
-              <ChevronDown size={16} className="text-slate-500 group-hover:text-slate-300 transition-colors" />
+              <ChevronDown size={20} className="text-slate-400 group-hover:text-white" />
             </motion.div>
           </div>
         </div>
@@ -172,34 +186,52 @@ const IngredientCard = ({ detail, index }: { detail: IngredientDetail; index: nu
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="border-t border-white/10"
           >
-            <div className="p-4 space-y-4 text-[13px] bg-slate-900/40 backdrop-blur-md">
+            <div className="p-6 sm:p-8 space-y-6 text-[14px] bg-slate-900/60 backdrop-blur-xl">
               {detail.healthNotes && (
-                <div className="flex gap-4">
-                  <Heart size={15} className="text-rose-400 shrink-0 mt-0.5 opacity-80" />
-                  <p className="text-slate-300 leading-relaxed font-medium">{detail.healthNotes}</p>
+                <div className="flex gap-5">
+                  <div className="w-8 h-8 rounded-full bg-rose-500/10 flex items-center justify-center shrink-0 border border-rose-500/20 shadow-lg shadow-rose-500/5">
+                    <Heart size={16} className="text-rose-400" />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-rose-400 uppercase tracking-widest opacity-60">Health Impact</span>
+                    <p className="text-slate-200 leading-relaxed font-medium">{detail.healthNotes}</p>
+                  </div>
                 </div>
               )}
               {detail.allergyWarnings && detail.allergyWarnings.length > 0 && (
-                <div className="flex gap-4">
-                  <AlertTriangle size={15} className="text-amber-400 shrink-0 mt-0.5 opacity-80" />
-                  <div className="flex flex-wrap gap-2">
-                    {detail.allergyWarnings.map((w: string, i: number) => (
-                      <span key={i} className="text-[11px] bg-amber-500/10 text-amber-200 px-2.5 py-0.5 rounded border border-amber-500/20 font-bold shadow-sm">
-                        {w}
-                      </span>
-                    ))}
+                <div className="flex gap-5">
+                  <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0 border border-amber-500/20 shadow-lg shadow-amber-500/5">
+                    <AlertTriangle size={16} className="text-amber-400" />
+                  </div>
+                  <div className="space-y-2">
+                    <span className="text-[10px] font-black text-amber-400 uppercase tracking-widest opacity-60">Allergy Alerts</span>
+                    <div className="flex flex-wrap gap-2">
+                      {detail.allergyWarnings.map((w: string, i: number) => (
+                        <span key={i} className="text-[11px] bg-amber-500/10 text-amber-200 px-3 py-1 rounded-xl border border-amber-500/20 font-bold shadow-sm">
+                          {w}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
               {detail.dailyLimitInfo && (
-                <div className="flex gap-4">
-                  <Activity size={15} className="text-sky-400 shrink-0 mt-0.5 opacity-80" />
-                  <p className="text-slate-400 text-xs leading-relaxed italic">{detail.dailyLimitInfo}</p>
+                <div className="flex gap-5">
+                  <div className="w-8 h-8 rounded-full bg-sky-500/10 flex items-center justify-center shrink-0 border border-sky-500/20 shadow-lg shadow-sky-500/5">
+                    <Activity size={16} className="text-sky-400" />
+                  </div>
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-sky-400 uppercase tracking-widest opacity-60">Daily Limit info</span>
+                    <p className="text-slate-300 text-xs leading-relaxed italic">{detail.dailyLimitInfo}</p>
+                  </div>
                 </div>
               )}
-              <div className="flex gap-3 items-center pt-3 border-t border-white/5">
-                <span className="text-[9px] text-slate-500 uppercase font-black tracking-widest">Scientific Source</span>
-                <span className="text-[10px] text-slate-400 font-semibold">{detail.source}</span>
+              <div className="flex items-center justify-between pt-6 border-t border-white/5">
+                <div className="flex items-center gap-2">
+                  <Database size={12} className="text-slate-600" />
+                  <span className="text-[10px] text-slate-500 uppercase font-black tracking-[0.2em]">Scientific Data Source</span>
+                </div>
+                <span className="text-[11px] text-slate-400 font-bold px-3 py-1 bg-white/5 rounded-full border border-white/10 uppercase tracking-wider">{detail.source}</span>
               </div>
             </div>
           </motion.div>
@@ -461,16 +493,16 @@ const IngredientAnalysis = ({ data }: { data: AnalysisResponse }) => {
       </div>
 
       {/* ═══ HEALTH ALERTS ═══ */}
-      {data.healthSummary && (data.healthSummary.allergyAlerts?.length > 0 || data.healthSummary.dietaryFlags?.length > 0) && (
+      {data.healthSummary && ((data.healthSummary.allergyAlerts?.length ?? 0) > 0 || (data.healthSummary.dietaryFlags?.length ?? 0) > 0) && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {data.healthSummary.allergyAlerts?.length > 0 && (
+          {(data.healthSummary.allergyAlerts?.length ?? 0) > 0 && (
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
               className="bg-gradient-to-br from-red-900/20 to-red-950/5 border border-red-500/20 rounded-xl p-5">
               <h4 className="text-red-400 font-bold text-sm flex items-center gap-2 mb-3">
                 <AlertTriangle size={16} /> Allergy Alerts
               </h4>
               <div className="space-y-2">
-                {data.healthSummary.allergyAlerts.map((alert: string, i: number) => (
+                {data.healthSummary?.allergyAlerts?.map((alert: string, i: number) => (
                   <div key={i} className="flex items-start gap-2 text-sm text-red-200">
                     <Skull size={14} className="text-red-400 shrink-0 mt-0.5" />
                     <span>{alert}</span>
@@ -479,14 +511,14 @@ const IngredientAnalysis = ({ data }: { data: AnalysisResponse }) => {
               </div>
             </motion.div>
           )}
-          {data.healthSummary.dietaryFlags?.length > 0 && (
+          {(data.healthSummary.dietaryFlags?.length ?? 0) > 0 && (
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
               className="bg-gradient-to-br from-blue-900/20 to-blue-950/5 border border-blue-500/20 rounded-xl p-5">
               <h4 className="text-blue-400 font-bold text-sm flex items-center gap-2 mb-3">
                 <Info size={16} /> Dietary Flags
               </h4>
               <div className="flex flex-wrap gap-2">
-                {data.healthSummary.dietaryFlags.map((flag: string, i: number) => (
+                {data.healthSummary?.dietaryFlags?.map((flag: string, i: number) => (
                   <span key={i} className="text-xs bg-blue-500/10 text-blue-300 px-3 py-1.5 rounded-lg border border-blue-500/20 font-medium">
                     {flag}
                   </span>
@@ -498,14 +530,14 @@ const IngredientAnalysis = ({ data }: { data: AnalysisResponse }) => {
       )}
 
       {/* ═══ RECOMMENDATIONS ═══ */}
-      {data.healthSummary?.recommendations?.length > 0 && (
+      {(data.healthSummary?.recommendations?.length ?? 0) > 0 && (
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
           className="bg-gradient-to-br from-purple-900/15 to-purple-950/5 border border-purple-500/15 rounded-xl p-5">
           <h4 className="text-purple-400 font-bold text-sm flex items-center gap-2 mb-3">
             <Sparkles size={16} /> AI Recommendations
           </h4>
           <div className="space-y-2">
-            {data.healthSummary.recommendations.map((rec: string, i: number) => (
+            {data.healthSummary?.recommendations?.map((rec: string, i: number) => (
               <div key={i} className="flex items-start gap-2 text-sm text-gray-300">
                 <ArrowRight size={14} className="text-purple-400 shrink-0 mt-0.5" />
                 <span>{rec}</span>
@@ -523,17 +555,27 @@ const IngredientAnalysis = ({ data }: { data: AnalysisResponse }) => {
           <span className="text-xs text-gray-600 font-normal ml-auto">{data.ingredients.length} detected</span>
         </h3>
         {data.ingredientDetails && data.ingredientDetails.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+          <div className="grid grid-cols-1 gap-6 items-start">
             {data.ingredientDetails.map((detail: IngredientDetail, idx: number) => (
               <IngredientCard key={`ingredient-${idx}-${detail.name}`} detail={detail} index={idx} />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
+          <div className="grid grid-cols-1 gap-4 items-start">
             {data.ingredients.map((ing: string, idx: number) => (
-              <div key={idx} className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-gray-500" />
-                <span className="text-white text-sm">{ing}</span>
+              <div
+                key={idx}
+                className="group bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex items-center justify-between hover:bg-slate-800/60 hover:border-emerald-500/20 transition-all duration-300 shadow-xl"
+              >
+                <div className="flex items-center gap-5">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-lg shadow-emerald-500/5 group-hover:scale-110 transition-transform duration-500">
+                    <Sparkles size={18} className="text-emerald-400" />
+                  </div>
+                  <span className="text-slate-100 font-bold text-base group-hover:text-white transition-colors">{ing}</span>
+                </div>
+                <div className="px-4 py-1.5 bg-white/5 rounded-full border border-white/10">
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Base Analysis Only</span>
+                </div>
               </div>
             ))}
           </div>
