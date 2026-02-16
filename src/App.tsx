@@ -8,22 +8,23 @@ import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import TechnologyPage from './pages/TechnologyPage';
 import ScannerPage from './pages/ScannerPage';
+import BarcodeScannerPage from './pages/BarcodeScannerPage';
 import Chatbot from './components/Chatbot';
 
 // ScrollToTop component to handle scrolling to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-  
+
   return null;
 }
 
 function AppRoutes() {
   const location = useLocation();
-  
+
   return (
     <AnimatePresence mode="wait">
       <main>
@@ -32,6 +33,7 @@ function AppRoutes() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/technology" element={<TechnologyPage />} />
           <Route path="/scanner" element={<ScannerPage />} />
+          <Route path="/barcode-scanner" element={<BarcodeScannerPage />} />
         </Routes>
       </main>
     </AnimatePresence>

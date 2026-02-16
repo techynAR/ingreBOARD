@@ -81,3 +81,5 @@ jest-config/
 *.sqlite
 *.tgz
 *.log.*
+.vercel
+.env*.local

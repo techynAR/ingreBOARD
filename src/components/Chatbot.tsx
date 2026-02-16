@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { GeminiService } from '../services/geminiService';
 import { findBestMatch, processQuery, isGreeting, getGreetingResponse, findIngredientInDatabase } from '../utils/chatUtils';
 import { FAQ } from '../data/faq';
 import { AIInputWithLoading } from './ui/ai-input-with-loading';
@@ -35,7 +34,7 @@ const Chatbot = () => {
     setIsLoading(true);
 
     // Add a delay before showing the AI response (simulates thinking)
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     try {
       let response: string;
@@ -50,53 +49,19 @@ const Chatbot = () => {
       else if (isGreeting(processedQuery)) {
         response = getGreetingResponse();
       }
-      // Try Gemini API with better error handling
+      // Fallback to FAQ / Keyword Search
       else {
-        try {
-          const geminiService = GeminiService.getInstance();
-          
-          // Add error checking for API key
-          if (!import.meta.env.VITE_GEMINI_API_KEY) {
-            throw new Error('Gemini API key not configured');
-          }
-
-          const prompt = {
-            contents: [{
-              parts: [{
-                text: `You are a helpful assistant for the ingreBOARD website. Respond to this user query about ingredients, the website, or contact information. If they ask about contacting us, provide the email aryan@techynar.com. If they ask about the website or team, suggest visiting the About page. Keep responses concise and friendly.
-
-User query: ${userMessage}`
-              }]
-            }]
-          };
-
-          const result = await geminiService.model.generateContent(prompt);
-          if (!result || !result.response) {
-            throw new Error('Empty response from Gemini API');
-          }
-          
-          response = result.response.text();
-          
-          // Validate response is not empty
-          if (!response || response.trim().length === 0) {
-            throw new Error('Empty response text from Gemini API');
-          }
-        } catch (error) {
-          console.error('Gemini API error:', error);
-          // Only use fallback if it's a network or API error
-          if (error instanceof Error && error.message.includes('API')) {
-            response = findBestMatch(processedQuery, FAQ);
-          } else {
-            throw error; // Re-throw other errors
-          }
-        }
+        response = findBestMatch(processedQuery, FAQ);
       }
 
       // Handle navigation to About page if mentioned
       if (response.toLowerCase().includes('about page')) {
         setMessages(prev => [...prev, {
           role: 'assistant',
-          content: response + "\n\nI can take you to the About page if you'd like. Just click the link below.",
+          content: response,
+        }, {
+          role: 'assistant',
+          content: "I can take you to the About page if you'd like. Just click the link below.",
         }]);
       } else {
         setMessages(prev => [...prev, { role: 'assistant', content: response }]);
@@ -165,16 +130,14 @@ User query: ${userMessage}`
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className={`flex ${
-                    message.role === 'user' ? 'justify-end' : 'justify-start'
-                  }`}
+                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'
+                    }`}
                 >
                   <div
-                    className={`max-w-[85%] rounded-2xl px-4 py-3 shadow-sm ${
-                      message.role === 'user'
+                    className={`max-w-[85%] rounded-2xl px-4 py-3 shadow-sm ${message.role === 'user'
                         ? 'bg-gradient-to-r from-emerald-500 to-emerald-600 text-white'
                         : 'bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700'
-                    }`}
+                      }`}
                   >
                     <p className="whitespace-pre-wrap text-sm leading-relaxed">{message.content}</p>
                     {message.content.toLowerCase().includes('about page') && message.role === 'assistant' && (

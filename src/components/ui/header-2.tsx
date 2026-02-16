@@ -14,19 +14,23 @@ export function Header() {
 	const links = [
 		{
 			label: 'Home',
-			href: '/',
+			to: '/',
 		},
 		{
 			label: 'About',
-			href: '/about',
+			to: '/about',
 		},
 		{
 			label: 'Technology',
-			href: '/technology',
+			to: '/technology',
 		},
 		{
-			label: 'Try It',
-			href: '/scanner',
+			label: 'Image Scan',
+			to: '/scanner',
+		},
+		{
+			label: 'Barcode Scan',
+			to: '/barcode-scanner',
 		},
 	];
 
@@ -65,21 +69,21 @@ export function Header() {
 				)}
 			>
 				<Link to="/" className="flex items-center">
-					<img 
-						src="/ingreBOARD-logo.png" 
-						alt="ingreBOARD Logo" 
-						className="h-8 w-8 rounded-full object-cover" 
+					<img
+						src="/ingreBOARD-logo.png"
+						alt="ingreBOARD Logo"
+						className="h-8 w-8 rounded-full object-cover"
 					/>
 				</Link>
 				<div className="hidden items-center gap-2 md:flex">
 					{links.map((link, i) => (
-						<Link 
-							key={i} 
+						<Link
+							key={i}
 							className={cn(
 								buttonVariants({ variant: 'ghost' }),
-								location.pathname === link.href && 'text-emerald-400'
-							)} 
-							to={link.href}
+								location.pathname === link.to && 'text-emerald-400'
+							)}
+							to={link.to}
 						>
 							{link.label}
 						</Link>
@@ -112,9 +116,9 @@ export function Header() {
 										variant: 'ghost',
 										className: 'justify-start',
 									}),
-									location.pathname === link.href && 'text-emerald-400'
+									location.pathname === link.to && 'text-emerald-400'
 								)}
-								to={link.href}
+								to={link.to}
 								onClick={() => setOpen(false)}
 							>
 								{link.label}
