@@ -65,12 +65,18 @@ const BarcodeScannerPage = () => {
         };
     }, []);
 
+    const isStartingRef = useRef(false);
+
     const startScanner = async (cameraId?: string) => {
+        if (isStartingRef.current) return;
+        
         const idToUse = typeof cameraId === 'string' ? cameraId : activeCameraId;
         if (!idToUse) return;
 
         // If already scanning the same camera, skip
         if (isScanning && scannerRef.current && !cameraId) return;
+
+        isStartingRef.current = true;
 
         try {
             setError(null);
@@ -78,7 +84,7 @@ const BarcodeScannerPage = () => {
             // 1. Cleanup old instance
             if (scannerRef.current) {
                 try {
-                    if (scannerRef.current.isScanning) await scannerRef.current.stop();
+                    if (scannerRef.current.getState && scannerRef.current.getState() === 2) await scannerRef.current.stop();
                     scannerRef.current.clear();
                 } catch (e) { console.warn("Cleanup error", e); }
                 scannerRef.current = null;
@@ -122,13 +128,16 @@ const BarcodeScannerPage = () => {
                 setError("Failed to start camera. Please ensure permissions are granted.");
                 setIsScanning(false);
             }
+        } finally {
+            isStartingRef.current = false;
         }
     };
 
     const stopScanner = async () => {
         if (scannerRef.current) {
             try {
-                if (scannerRef.current.isScanning) {
+                // getState() === 2 means Html5QrcodeScannerState.SCANNING
+                if (scannerRef.current.getState && scannerRef.current.getState() === 2) {
                     await scannerRef.current.stop();
                 }
                 scannerRef.current.clear();
@@ -257,7 +266,8 @@ const BarcodeScannerPage = () => {
                             </div>
                         )}
 
-                        <div id="reader" className="w-full max-w-sm rounded-lg overflow-hidden bg-black relative">
+                        <div className="w-full max-w-sm rounded-lg overflow-hidden bg-black relative">
+                            <div id="reader" className="w-full relative"></div>
                             {/* Overlay Guidelines */}
                             {isScanning && (
                                 <div className="absolute inset-0 pointer-events-none z-10 flex items-center justify-center">
