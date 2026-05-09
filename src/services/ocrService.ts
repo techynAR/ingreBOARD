@@ -8,7 +8,6 @@ interface OCRResult {
 
 export class OCRService {
   private static instance: OCRService;
-  private readonly apiKey = import.meta.env.VITE_OCR_SPACE_API_KEY;
 
   private constructor() { }
 
@@ -19,31 +18,34 @@ export class OCRService {
     return OCRService.instance;
   }
 
+  private async fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  }
+
   private async ocrSpaceProcess(imageFile: File): Promise<OCRResult> {
     try {
-      const formData = new FormData();
-      formData.append('file', imageFile);
-      formData.append('language', 'eng');
-      formData.append('isOverlayRequired', 'false');
-      formData.append('detectOrientation', 'true');
-      formData.append('scale', 'true');
-      formData.append('OCREngine', '2');
+      const base64Image = await this.fileToBase64(imageFile);
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
 
-      const response = await fetch('https://api.ocr.space/parse/image', {
+      const response = await fetch('/api/ocr', {
         method: 'POST',
         headers: {
-          'apikey': this.apiKey
+          'Content-Type': 'application/json'
         },
-        body: formData,
+        body: JSON.stringify({ base64Image }),
         signal: controller.signal
       });
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        throw new Error(`OCR processing failed: ${response.statusText}`);
+        throw new Error(`OCR backend failed: ${response.statusText}`);
       }
 
       const result = await response.json();
@@ -90,19 +92,17 @@ export class OCRService {
   }
 
   public async processImage(imageFile: File, forceTesseract = false): Promise<OCRResult> {
-    if (forceTesseract || !this.apiKey) {
+    if (forceTesseract) {
       console.log('Using Tesseract.js for OCR processing');
       return await this.tesseractProcess(imageFile);
     }
 
-    // try {
     const result = await this.ocrSpaceProcess(imageFile);
     if (result.error) {
       console.warn('OCR.space failed/error, falling back to Tesseract.js:', result.error);
       return await this.tesseractProcess(imageFile);
     }
     return result;
-    // } catch (error) { ... } // remove catch since we handle result.error
   }
 }
 
