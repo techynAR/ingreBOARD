@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ingreboard.vercel.app/sitemap.xml
+Sitemap: https://ingreboard.techynar.com/sitemap.xml
