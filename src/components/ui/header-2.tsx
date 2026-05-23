@@ -5,6 +5,7 @@ import { Button, buttonVariants } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { MenuToggleIcon } from '@/components/ui/menu-toggle-icon';
 import { useScroll } from '@/components/ui/use-scroll';
+import { Github } from 'lucide-react';
 
 export function Header() {
 	const [open, setOpen] = React.useState(false);
@@ -89,9 +90,23 @@ export function Header() {
 						</Link>
 					))}
 				</div>
-				<Button size="icon" variant="outline" onClick={() => setOpen(!open)} className="md:hidden">
-					<MenuToggleIcon open={open} className="size-5" duration={300} />
-				</Button>
+				<div className="flex items-center gap-2">
+					<a
+						href="https://github.com/techynAR/ingreBOARD"
+						target="_blank"
+						rel="noopener noreferrer"
+						className={cn(
+							buttonVariants({ variant: 'outline' }),
+							'hidden md:flex items-center gap-1.5 text-sm font-medium border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 hover:border-emerald-400 transition-all'
+						)}
+					>
+						<Github className="h-4 w-4" />
+						<span>Contribute</span>
+					</a>
+					<Button size="icon" variant="outline" onClick={() => setOpen(!open)} className="md:hidden">
+						<MenuToggleIcon open={open} className="size-5" duration={300} />
+					</Button>
+				</div>
 			</nav>
 
 			<div
@@ -126,7 +141,19 @@ export function Header() {
 						))}
 					</div>
 					<div className="flex flex-col gap-2">
-						{/* Action buttons removed for simplicity */}
+						<a
+							href="https://github.com/techynAR/ingreBOARD"
+							target="_blank"
+							rel="noopener noreferrer"
+							className={cn(
+								buttonVariants({ variant: 'outline', className: 'justify-start' }),
+								'flex items-center gap-2 border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10'
+							)}
+							onClick={() => setOpen(false)}
+						>
+							<Github className="h-4 w-4" />
+							Contribute on GitHub
+						</a>
 					</div>
 				</div>
 			</div>
