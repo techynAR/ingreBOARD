@@ -80,7 +80,7 @@ const AboutPage = () => {
               {[
                 { title: 'Serverless Backend', desc: 'Secure, high-performance Vercel Edge compute for instant processing.' },
                 { title: 'Open Food Facts', desc: 'Integrated with the world\'s largest open food database for barcode lookup.' },
-                { title: 'Groq AI (Llama 3.3)', desc: 'Advanced semantic analysis replacing legacy Gemini models for better accuracy.' },
+                { title: 'Groq AI (GPT-OSS 20B)', desc: 'Advanced semantic analysis replacing legacy Gemini models for better accuracy.' },
                 { title: 'Real-time OCR', desc: 'Extract ingredient lists instantly from product packaging images.' },
                 { title: 'Allergen Detection', desc: 'Automated flagging of potential allergens and sensitizers.' },
                 { title: 'Risk Scoring', desc: 'Weighted scoring model based on regulatory data and additives.' }

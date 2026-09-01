@@ -6,7 +6,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 /**
- * Normalizes OCR text using Groq AI (Llama 3.3).
+ * Normalizes OCR text using Groq AI (GPT-OSS 20B).
  */
 export async function normalizeOCRText(rawText: string): Promise<{ correctedText: string; usedAI: boolean }> {
     const API_KEY = process.env.GROQ_API_KEY || process.env.VITE_GROQ_API_KEY;
@@ -26,7 +26,7 @@ export async function normalizeOCRText(rawText: string): Promise<{ correctedText
         const groq = new Groq({ apiKey: API_KEY });
 
         const chatCompletion = await groq.chat.completions.create({
-            model: 'llama-3.3-70b-versatile',
+            model: 'openai/gpt-oss-20b',
             messages: [
                 {
                     role: 'system',

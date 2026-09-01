@@ -42,7 +42,7 @@ export async function analyzeIngredientsWithAI(
             .join(', ');
 
         const response = await groq.chat.completions.create({
-            model: 'llama-3.3-70b-versatile',
+            model: 'openai/gpt-oss-20b',
             messages: [
                 {
                     role: 'system',
@@ -151,7 +151,7 @@ export async function deepDiveAdditives(
         const additiveList = additives.map(a => `${a.code} (${a.name})`).join(', ');
 
         const response = await groq.chat.completions.create({
-            model: 'llama-3.3-70b-versatile',
+            model: 'openai/gpt-oss-20b',
             messages: [
                 {
                     role: 'system',

@@ -57,9 +57,9 @@ const TechnologyPage = () => {
     },
     {
       icon: <Brain className="h-8 w-8" />,
-      title: "Groq AI (Llama 3.3)",
-      description: "Ultra-fast inference engine utilizing Llama 3.3 70B for deep semantic analysis, safety assessment, and ingredient classification.",
-      tech: "Groq SDK + Llama 3.3 70B"
+      title: "Groq AI (GPT-OSS 20B)",
+      description: "Ultra-fast inference engine utilizing GPT-OSS 20B for deep semantic analysis, safety assessment, and ingredient classification.",
+      tech: "Groq SDK + GPT-OSS 20B"
     },
     {
       icon: <Database className="h-8 w-8" />,
@@ -88,7 +88,7 @@ const TechnologyPage = () => {
     },
     {
       title: "Integration Layer",
-      items: ["OCR.Space REST API", "Groq AI (Llama 3.3) API", "Open Food Facts API"],
+      items: ["OCR.Space REST API", "Groq AI (GPT-OSS 20B) API", "Open Food Facts API"],
       color: "from-cyan-500 to-blue-600"
     },
     {

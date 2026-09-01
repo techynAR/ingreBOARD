@@ -131,7 +131,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
 
         // 6. Data Sources
         const dataSources = ['OpenFoodFacts', 'RegulationDB (Local)'];
-        if (usedAI) dataSources.push('Groq AI (Llama 3.3)');
+        if (usedAI) dataSources.push('Groq AI (GPT-OSS 20B)');
         if (dataSourceAdded) dataSources.push('OpenFoodFacts (Enrichment)');
         if (aiAnalysis.ingredientDetails.some(d => d.source === 'AI Analysis')) {
             dataSources.push('AI Ingredient Analysis');
